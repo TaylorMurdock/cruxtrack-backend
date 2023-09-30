@@ -74,4 +74,3 @@ Connect with me on LinkedIn to learn more about my background and stay updated o
 ---
 
 Start your climbing journey with CruxTrack today! Keep your climbing routes organized, connect with fellow climbers, and achieve new heights in your climbing adventure.
-# cruxtrack-backend
