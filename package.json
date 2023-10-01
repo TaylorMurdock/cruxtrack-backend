@@ -1,0 +1,18 @@
+{
+  "name": "cruxtrack-backend",
+  "version": "1.0.0",
+  "description": "- [**Link to Backend GitHub Repository**](https://github.com/TaylorMurdock/cruxtrack-backend) - [**Link to Frontend GitHub Repository**](https://github.com/TaylorMurdock/cruxtrack-frontend) - [**Link to Deployed Website**](https://cruxtrack-app-url.com/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "prisma": "^5.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
