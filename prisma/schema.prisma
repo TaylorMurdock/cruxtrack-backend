@@ -13,18 +13,31 @@ model User {
   id       Int     @id @default(autoincrement())
   email    String  @unique
   password String
-  name     String?
   routes   Route[]
 }
 
 model Route {
-  id             Int     @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   name           String
   grade          String
   description    String
   location       String
   protection     String
-  routeCompleted Boolean @default(false)
-  climber        User    @relation(fields: [authorId], references: [id])
+  date           DateTime
+  routeCompleted Boolean  @default(false)
+  climber        User     @relation(fields: [authorId], references: [id])
   authorId       Int
+}
+
+model Journal {
+  id          Int      @id @default(autoincrement())
+  entryName   String
+  description String
+  date        DateTime
+}
+
+model Gear {
+  id         Int      @id @default(autoincrement())
+  item       String
+  dateBought DateTime
 }
