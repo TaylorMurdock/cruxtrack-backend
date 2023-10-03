@@ -23,6 +23,41 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+// Retrieve user with ID - GET
+router.get("/:id", async (req, res, next) => {
+  try {
+    // Retrieve a User from the database
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Update a route by ID - PUT
+router.put("/:id", async (req, res, next) => {
+  try {
+    // Update a user in the database by its ID using Prisma's update method
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      data: {
+        email: req.body.email,
+        password: req.body.password,
+      },
+    });
+
+    res.json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Retrieve all users - GET
 router.get("/", async (req, res, next) => {
   try {

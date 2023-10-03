@@ -10,8 +10,12 @@ router.post("/", async (req, res, next) => {
     // Parse the date from the request body in "yyyy-mm-dd" format
     const parsedDate = parseISO(req.body.dateBought);
 
+    console.log(parsedDate);
+
     // Format the parsed date as "mm-dd-yyyy"
     const formattedDate = format(parsedDate, "mm-dd-yyyy");
+
+    console.log(formattedDate);
 
     // Create a new gear item in the database
     const newGearItem = await prisma.gear.create({
