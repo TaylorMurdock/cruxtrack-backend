@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 
 // Create a new user - POST
-router.post("/users", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     // Create a new user in the database
     const newUser = await prisma.user.create({
@@ -22,8 +22,19 @@ router.post("/users", async (req, res, next) => {
   }
 });
 
+// Retrieve all users - GET
+router.get("/", async (req, res, next) => {
+  try {
+    // Retrieve all users from the database
+    const users = await prisma.user.findMany();
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Delete a user - DELETE request handler
-router.delete("/users/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   // Handle DELETE requests to "/users/:id" endpoint
   try {
     // Delete a user from the database based on the provided user ID
