@@ -61,7 +61,11 @@ Stay tuned for updates and announcements on our GitHub repositories and LinkedIn
 
 Contributions are welcome! If you have any suggestions, bug reports, or improvements, feel free to [open an issue in the frontend repository](https://github.com/TaylorMurdock/cruxtrack-frontend/issues) or [open an issue in the backend repository](https://github.com/TaylorMurdock/cruxtrack-backend/issues). We value your input and are dedicated to making CruxTrack even better.
 
-## ERD (entitity relationship diagram)
+## Mock Up of UI
+
+![Wireframe](./images/cruxtrackWireFrame.png)
+
+## ERD
 
 ![ERD](./images/cruxtrackERD.png)
 
