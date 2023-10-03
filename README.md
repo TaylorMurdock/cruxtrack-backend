@@ -63,7 +63,7 @@ Contributions are welcome! If you have any suggestions, bug reports, or improvem
 
 ## ERD (entitity relationship diagram)
 
-![ERD](/cruxtrack-backend/images/cruxtrackERD.png)
+![ERD](../cruxtrack-backend/images/cruxtrackERD.png)
 
 made with <https://lucid.app.com>
 
