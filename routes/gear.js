@@ -1,27 +1,23 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
-const { parseISO, format } = require("date-fns");
+const { parseISO, set } = require("date-fns"); // Import necessary functions from date-fns
 const prisma = new PrismaClient();
 const router = express.Router();
 
 // Create a new gear item - POST
 router.post("/", async (req, res, next) => {
   try {
-    // Parse the date from the request body in "yyyy-mm-dd" format
+    // Parse the date from the request body in "yyyy-MM-dd" format
     const parsedDate = parseISO(req.body.dateBought);
 
-    console.log(parsedDate);
-
-    // Format the parsed date as "mm-dd-yyyy"
-    const formattedDate = format(parsedDate, "mm-dd-yyyy");
-
-    console.log(formattedDate);
+    // Set the time portion to midnight (00:00:00)
+    const dateBought = set(parsedDate, { hours: 0, minutes: 0, seconds: 0 });
 
     // Create a new gear item in the database
     const newGearItem = await prisma.gear.create({
       data: {
         item: req.body.item,
-        dateBought: formattedDate, // Use the formatted date
+        dateBought: dateBought, // Store the parsed date with midnight time
       },
     });
 

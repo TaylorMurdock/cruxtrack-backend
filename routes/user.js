@@ -1,5 +1,6 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
 
 // Create an Express router
@@ -8,11 +9,14 @@ const router = express.Router();
 // Create a new user - POST
 router.post("/", async (req, res, next) => {
   try {
-    // Create a new user in the database
+    // Hash the user's password before saving it
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    // Create a new user in the database with the hashed password
     const newUser = await prisma.user.create({
       data: {
-        email: req.body.email,
-        password: req.body.password,
+        username: req.body.username,
+        password: hashedPassword, // Store the hashed password
       },
     });
 
@@ -22,7 +26,6 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
-
 // Retrieve user with ID - GET
 router.get("/:id", async (req, res, next) => {
   try {
@@ -47,7 +50,7 @@ router.put("/:id", async (req, res, next) => {
         id: parseInt(req.params.id),
       },
       data: {
-        email: req.body.email,
+        username: req.body.username,
         password: req.body.password,
       },
     });

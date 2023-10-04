@@ -8,10 +8,12 @@ generator client {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
   password String
   routes   Route[]
+  journal  Journal[]
+  gear     Gear[]
 }
 
 model Route {
@@ -23,8 +25,8 @@ model Route {
   protection     String
   date           DateTime
   routeCompleted Boolean  @default(false)
-  climber        User     @relation(fields: [authorId], references: [id])
-  authorId       Int
+  climber        User     @relation(fields: [climberId], references: [id])
+  climberId      Int      @default(autoincrement())
 }
 
 model Journal {
@@ -32,10 +34,14 @@ model Journal {
   entryName   String
   description String
   date        DateTime
+  climber     User     @relation(fields: [climberId], references: [id])
+  climberId   Int      @default(autoincrement())
 }
 
 model Gear {
   id         Int      @id @default(autoincrement())
   item       String
   dateBought DateTime
+  climber    User     @relation(fields: [climberId], references: [id])
+  climberId  Int      @default(autoincrement())
 }
