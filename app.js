@@ -21,7 +21,7 @@ app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/routes", routeRouter);
-app.use("/journals", journalRouter);
+app.use("/journal", journalRouter);
 app.use("/gear", gearRouter);
 
 app.listen(PORT, () => console.log(`server is running on ${PORT}`));
