@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+// Enable JSON parsing for incoming requests
+app.use(express.json());
+
 app.use(cors());
 
 app.use("/user", userRouter);
