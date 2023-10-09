@@ -1,13 +1,30 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const prisma = new PrismaClient();
 
 // Create an Express router
 const router = express.Router();
 
-// Create a new user - POST
-router.post("/", async (req, res, next) => {
+// Secret key for JWT token generation
+const secretKey = "3295";
+
+// List users route - Get a list of all users
+router.get("/", async (req, res, next) => {
+  try {
+    // Fetch a list of users from the database
+    const users = await prisma.user.findMany();
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("List users error:", error);
+    next(error);
+  }
+});
+
+// Signup route - Create a new user
+router.post("/signup", async (req, res, next) => {
   try {
     // Hash the user's password before saving it
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -20,71 +37,52 @@ router.post("/", async (req, res, next) => {
       },
     });
 
+    console.log("User signed up:", newUser); // Log the new user data
+
     res.status(201).json(newUser);
   } catch (error) {
-    console.log(error);
+    console.error("Signup error:", error);
     next(error);
   }
 });
-// Retrieve user with ID - GET
-router.get("/:id", async (req, res, next) => {
+
+// Login route - Authenticate the user and issue a JWT token
+router.post("/login", async (req, res, next) => {
+  console.log("Received a login request");
   try {
-    // Retrieve a User from the database
+    const { username, password } = req.body;
+
+    // Find the user by username
     const user = await prisma.user.findUnique({
       where: {
-        id: parseInt(req.params.id),
-      },
-    });
-    res.json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// Update a route by ID - PUT
-router.put("/:id", async (req, res, next) => {
-  try {
-    // Update a user in the database by its ID using Prisma's update method
-    const updatedUser = await prisma.user.update({
-      where: {
-        id: parseInt(req.params.id),
-      },
-      data: {
-        username: req.body.username,
-        password: req.body.password,
+        username: username,
       },
     });
 
-    res.json(updatedUser);
-  } catch (error) {
-    next(error);
-  }
-});
+    if (!user) {
+      console.log("Login failed: User not found");
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-// Retrieve all users - GET
-router.get("/", async (req, res, next) => {
-  try {
-    // Retrieve all users from the database
-    const users = await prisma.user.findMany();
-    res.json(users);
-  } catch (error) {
-    next(error);
-  }
-});
+    // Compare the provided password with the hashed password
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-// Delete a user - DELETE request handler
-router.delete("/:id", async (req, res, next) => {
-  // Handle DELETE requests to "/users/:id" endpoint
-  try {
-    // Delete a user from the database based on the provided user ID
-    await prisma.user.delete({
-      where: {
-        id: parseInt(req.params.id),
-      },
+    if (!passwordMatch) {
+      console.log("Login failed: Invalid password");
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ username: user.username }, secretKey, {
+      expiresIn: "1h",
     });
 
-    res.status(204).end();
+    console.log("Login successful: User logged in");
+
+    // Send the JWT token as a response
+    res.status(200).json({ message: "Login successful", token });
   } catch (error) {
+    console.error("Login error:", error);
     next(error);
   }
 });

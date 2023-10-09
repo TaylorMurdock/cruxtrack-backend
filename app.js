@@ -8,6 +8,9 @@ const routeRouter = require("./routes/route");
 const journalRouter = require("./routes/journal");
 const gearRouter = require("./routes/gear");
 
+// Enable CORS for all routes
+app.use(cors());
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -16,8 +19,6 @@ app.use(bodyParser.json());
 
 // Enable JSON parsing for incoming requests
 app.use(express.json());
-
-app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/routes", routeRouter);

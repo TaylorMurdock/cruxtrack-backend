@@ -14,10 +14,10 @@ router.post("/", async (req, res, next) => {
         description: req.body.description,
         location: req.body.location,
         protection: req.body.protection,
-        date: new Date(), // Automatically set the current date
+        date: new Date(),
         routeCompleted: false,
         climber: {
-          connect: { id: req.body.authorId }, // Connect to a user based on authorId
+          connect: { id: req.body.authorId },
         },
       },
     });
@@ -50,7 +50,6 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
-    // Check if the route exists
     if (!route) {
       res.status(404).json({ error: "Route not found" });
     } else {
@@ -64,7 +63,6 @@ router.get("/:id", async (req, res, next) => {
 // Update a route by ID - PUT
 router.put("/:id", async (req, res, next) => {
   try {
-    // Update a route in the database by its ID using Prisma's update method
     const updatedRoute = await prisma.route.update({
       where: {
         id: parseInt(req.params.id),
@@ -88,7 +86,6 @@ router.put("/:id", async (req, res, next) => {
 // Delete a route by ID - DELETE
 router.delete("/:id", async (req, res, next) => {
   try {
-    // Delete a route from the database by its ID using Prisma's delete method
     await prisma.route.delete({
       where: {
         id: parseInt(req.params.id),

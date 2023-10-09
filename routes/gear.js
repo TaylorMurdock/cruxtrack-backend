@@ -1,23 +1,22 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
-const { parseISO, set } = require("date-fns"); // Import necessary functions from date-fns
+const { parseISO, set } = require("date-fns");
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Create a new gear item - POST
-router.post("/", async (req, res, next) => {
+// Create a new gear item associated with a user - POST
+router.post("/:climberId", async (req, res, next) => {
   try {
-    // Parse the date from the request body in "yyyy-MM-dd" format
     const parsedDate = parseISO(req.body.dateBought);
-
-    // Set the time portion to midnight (00:00:00)
     const dateBought = set(parsedDate, { hours: 0, minutes: 0, seconds: 0 });
 
-    // Create a new gear item in the database
     const newGearItem = await prisma.gear.create({
       data: {
         item: req.body.item,
-        dateBought: dateBought, // Store the parsed date with midnight time
+        dateBought: dateBought,
+        climber: {
+          connect: { id: parseInt(req.params.climberId) }, // Associate gear with user
+        },
       },
     });
 
@@ -27,11 +26,16 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-// Retrieve all gear items - GET
-router.get("/", async (req, res, next) => {
+// Retrieve all gear items associated with a specific user - GET
+router.get("/:climberId", async (req, res, next) => {
   try {
-    // Retrieve all gear items from the database
-    const gearItems = await prisma.gear.findMany();
+    const climberId = parseInt(req.params.climberId);
+    const gearItems = await prisma.gear.findMany({
+      where: {
+        climberId: climberId,
+      },
+    });
+
     res.json(gearItems);
   } catch (error) {
     next(error);
@@ -39,12 +43,15 @@ router.get("/", async (req, res, next) => {
 });
 
 // Retrieve a single gear item by ID - GET
-router.get("/:id", async (req, res, next) => {
+router.get("/:climberId/:id", async (req, res, next) => {
   try {
-    // Retrieve a single gear item from the database based on the provided ID
+    const climberId = parseInt(req.params.climberId);
+    const gearItemId = parseInt(req.params.id);
+
     const gearItem = await prisma.gear.findUnique({
       where: {
-        id: parseInt(req.params.id),
+        id: gearItemId,
+        climberId: climberId,
       },
     });
 
@@ -59,12 +66,15 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Update a gear item by ID - PUT
-router.put("/:id", async (req, res, next) => {
+router.put("/:climberId/:id", async (req, res, next) => {
   try {
-    // Update a gear item in the database based on the provided ID
+    const climberId = parseInt(req.params.climberId);
+    const gearItemId = parseInt(req.params.id);
+
     const updatedGearItem = await prisma.gear.update({
       where: {
-        id: parseInt(req.params.id),
+        id: gearItemId,
+        climberId: climberId,
       },
       data: {
         item: req.body.item,
@@ -79,12 +89,15 @@ router.put("/:id", async (req, res, next) => {
 });
 
 // Delete a gear item by ID - DELETE
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:climberId/:id", async (req, res, next) => {
   try {
-    // Delete a gear item from the database based on the provided ID
+    const climberId = parseInt(req.params.climberId);
+    const gearItemId = parseInt(req.params.id);
+
     await prisma.gear.delete({
       where: {
-        id: parseInt(req.params.id),
+        id: gearItemId,
+        climberId: climberId,
       },
     });
 
