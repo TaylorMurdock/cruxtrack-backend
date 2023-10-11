@@ -23,7 +23,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// Signup route - Create a new user
+// ...
+
+// Signup route - Create a new user and issue a JWT token
 router.post("/signup", async (req, res, next) => {
   try {
     // Hash the user's password before saving it
@@ -39,7 +41,13 @@ router.post("/signup", async (req, res, next) => {
 
     console.log("User signed up:", newUser); // Log the new user data
 
-    res.status(201).json(newUser);
+    // Generate a JWT token
+    const token = jwt.sign({ userId: newUser.id }, secretKey, {
+      expiresIn: "1h",
+    });
+
+    // Send the JWT token as part of the response
+    res.status(201).json({ token, userId: newUser.id });
   } catch (error) {
     console.error("Signup error:", error);
     next(error);
