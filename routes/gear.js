@@ -9,16 +9,20 @@ const jwt = require("jsonwebtoken"); // Import the jwt module
 const validateClimberId = (req, res, next) => {
   // Get the JWT token from the request headers
   const token = req.headers.authorization;
+  console.log("Received Token:", token);
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
   // Verify the JWT and extract the user's ID
-  jwt.verify(token, "3295", (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    console.log(err);
+    // Use the retrieved secret key from environment variables
     if (err) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+    console.log("Decoded User ID:", decoded.userId);
 
     req.climberId = decoded.userId; // Use the extracted user's ID
     next();

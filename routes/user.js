@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const router = express.Router();
 
 // Secret key for JWT token generation
-const secretKey = "3295";
+const secretKey = process.env.JWT_SECRET; // Use the retrieved secret key from environment variables
 
 // List users route - Get a list of all users
 router.get("/", async (req, res, next) => {
