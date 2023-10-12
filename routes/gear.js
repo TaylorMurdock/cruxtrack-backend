@@ -1,3 +1,4 @@
+//cruxtrack-backend/routes/gear.js
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const { parseISO, set } = require("date-fns");
@@ -46,6 +47,22 @@ router.post("/", validateClimberId, async (req, res, next) => {
     });
 
     res.status(201).json(newGearItem);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Add a new route to get all gear items for the authenticated user
+router.get("/", validateClimberId, async (req, res, next) => {
+  try {
+    // Fetch all gear items associated with the authenticated user
+    const gearItems = await prisma.gear.findMany({
+      where: {
+        climberId: req.climberId,
+      },
+    });
+
+    res.status(200).json(gearItems);
   } catch (error) {
     next(error);
   }
