@@ -67,5 +67,33 @@ router.get("/", validateClimberId, async (req, res, next) => {
     next(error);
   }
 });
+// Handle DELETE request to delete a gear item by ID
+router.delete("/:id", validateClimberId, async (req, res, next) => {
+  const itemId = parseInt(req.params.id);
+
+  try {
+    // Check if the gear item belongs to the authenticated climber
+    const gearItem = await prisma.gear.findUnique({
+      where: {
+        id: itemId,
+      },
+    });
+
+    if (!gearItem || gearItem.climberId !== req.climberId) {
+      return res.status(404).json({ error: "Gear item not found" });
+    }
+
+    // Perform the deletion
+    await prisma.gear.delete({
+      where: {
+        id: itemId,
+      },
+    });
+
+    res.status(204).end(); // No content, indicating successful deletion
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
