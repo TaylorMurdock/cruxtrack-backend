@@ -96,4 +96,36 @@ router.delete("/:id", validateClimberId, async (req, res, next) => {
   }
 });
 
+// Add a new route to update a gear item by ID
+router.put("/:id", validateClimberId, async (req, res, next) => {
+  const itemId = parseInt(req.params.id);
+  const { item, dateBought } = req.body;
+
+  try {
+    // Check if the gear item belongs to the authenticated climber
+    const gearItem = await prisma.gear.findUnique({
+      where: {
+        id: itemId,
+      },
+    });
+
+    if (!gearItem || gearItem.climberId !== req.climberId) {
+      return res.status(404).json({ error: "Gear item not found" });
+    }
+
+    // Perform the update
+    const updatedGearItem = await prisma.gear.update({
+      where: { id: itemId },
+      data: {
+        item,
+        dateBought: new Date(dateBought), // You might need to format this date properly
+      },
+    });
+
+    res.status(200).json(updatedGearItem);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
