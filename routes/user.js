@@ -48,7 +48,9 @@ router.post("/signup", async (req, res, next) => {
     });
 
     // Send the JWT token as part of the response
-    res.status(201).json({ token, userId: newUser.id });
+    res
+      .status(201)
+      .json({ token, userId: newUser.id, username: req.body.username }); // Fix the variable here
   } catch (error) {
     console.error("Signup error:", error);
     next(error);
@@ -82,11 +84,15 @@ router.post("/login", async (req, res, next) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user.id }, secretKey, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      secretKey,
+      {
+        expiresIn: "1h",
+      }
+    );
 
-    console.log("Login successful: User logged in");
+    console.log(`Login successful: User ${user.username} logged in`);
 
     // Send the JWT token as a response
     res.status(200).json({ message: "Login successful", token });
