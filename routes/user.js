@@ -96,4 +96,36 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+// Delete user route - Delete a user by ID
+router.delete("/:userId", async (req, res, next) => {
+  try {
+    const userId = parseInt(req.params.userId, 10); // Parse the user ID from the URL
+
+    // Check if the user exists
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Delete the user
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+
+    console.log(`User deleted: ID ${userId}`);
+
+    res.status(204).end(); // Respond with no content (user deleted)
+  } catch (error) {
+    console.error("Delete user error:", error);
+    next(error);
+  }
+});
+
 module.exports = router;
