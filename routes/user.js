@@ -24,8 +24,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// ...
-
 // Signup route - Create a new user and issue a JWT token
 router.post("/signup", async (req, res, next) => {
   try {
@@ -50,7 +48,7 @@ router.post("/signup", async (req, res, next) => {
     // Send the JWT token as part of the response
     res
       .status(201)
-      .json({ token, userId: newUser.id, username: req.body.username }); // Fix the variable here
+      .json({ token, userId: newUser.id, username: req.body.username });
   } catch (error) {
     console.error("Signup error:", error);
     next(error);

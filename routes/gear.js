@@ -67,6 +67,7 @@ router.get("/", validateClimberId, async (req, res, next) => {
     next(error);
   }
 });
+
 // Handle DELETE request to delete a gear item by ID
 router.delete("/:id", validateClimberId, async (req, res, next) => {
   const itemId = parseInt(req.params.id);
@@ -83,7 +84,7 @@ router.delete("/:id", validateClimberId, async (req, res, next) => {
       return res.status(404).json({ error: "Gear item not found" });
     }
 
-    // Perform the deletion
+    //delete
     await prisma.gear.delete({
       where: {
         id: itemId,
@@ -118,7 +119,7 @@ router.put("/:id", validateClimberId, async (req, res, next) => {
       where: { id: itemId },
       data: {
         item,
-        dateBought: new Date(dateBought), // You might need to format this date properly
+        dateBought: new Date(dateBought),
       },
     });
 
