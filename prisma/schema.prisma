@@ -1,11 +1,10 @@
-// cruxtrack-backend/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -19,6 +18,6 @@ model Gear {
   id         Int      @id @default(autoincrement())
   item       String
   dateBought DateTime
-  climber    User     @relation(fields: [climberId], references: [id])
   climberId  Int      @default(autoincrement())
+  climber    User     @relation(fields: [climberId], references: [id])
 }
