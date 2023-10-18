@@ -2,7 +2,7 @@
 
 - [**Link to Backend GitHub Repository**](https://github.com/TaylorMurdock/cruxtrack-backend)
 - [**Link to Frontend GitHub Repository**](https://github.com/TaylorMurdock/cruxtrack-frontend)
-- [**Link to Deployed Website**](https://cruxtrack-frontend-8j1109ne8-taylormurdock.vercel.app/)
+- [**Link to Deployed Website**](https://cruxtrack-frontend.vercel.app/)
 
 ## About CruxTrack
 
