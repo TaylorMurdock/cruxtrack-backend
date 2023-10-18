@@ -2,7 +2,7 @@
 
 - [**Link to Backend GitHub Repository**](https://github.com/TaylorMurdock/cruxtrack-backend)
 - [**Link to Frontend GitHub Repository**](https://github.com/TaylorMurdock/cruxtrack-frontend)
-- [**Link to Deployed Website**](https://cruxtrack-app-url.com/)
+- [**Link to Deployed Website**](https://cruxtrack-frontend-8j1109ne8-taylormurdock.vercel.app/)
 
 ## About CruxTrack
 
@@ -18,19 +18,19 @@ CruxTrack is the ultimate companion for rock climbers, offering a streamlined wa
 
 - **User Authentication:** CruxTrack provides a secure and user-friendly authentication system. Users can create accounts, log in, and manage their climbing routes with ease.
 
-- **Route Difficulty Ratings:** Assign difficulty ratings to your climbing routes, helping you and others gauge the challenge level.
-
-- **Photo Uploads:** Capture and document your climbs with photos, associating them with specific routes.
-
 - **Gear Inventory:** Manage your climbing gear and track which equipment was used for each climb. Set maintenance reminders and keep gear records organized.
-
-- **Climbing Journal:** Write and save climbing trip journals, with entries for each climbing route. Add descriptions, notes, and reflections to document your climbing experiences.
   
 - **Full CRUD Operations:** With CruxTrack, you can perform all CRUD (Create, Read, Update, Delete) operations on various aspects of your climbing community experience, including:
 
 ## Future Enhancements
 
 While CruxTrack already offers a robust set of features for climbers, we have exciting plans for future enhancements to further enhance your climbing experience. Here are some of the features and improvements we are considering:
+
+- **Route Difficulty Ratings:** Assign difficulty ratings to your climbing routes, helping you and others gauge the challenge level.
+
+- **Photo Uploads:** Capture and document your climbs with photos, associating them with specific routes.
+
+- **Climbing Journal:** Write and save climbing trip journals, with entries for each climbing route. Add descriptions, notes, and reflections to document your climbing experiences.
 
 - **Follow Other Climbers:** Connect with fellow climbers by following their profiles. Stay updated on their climbing achievements and share your own.
 
